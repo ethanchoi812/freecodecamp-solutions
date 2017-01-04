@@ -10,6 +10,7 @@ function checkCashRegister(price, cash, cid) {
     obj1[e[0]] = e[1];
   });
   
+  //denominations
   var obj2 = {
     "ONE HUNDRED":100.00,
     "TWENTY":20.00,
@@ -22,6 +23,7 @@ function checkCashRegister(price, cash, cid) {
     "PENNY":0.01
   };
   
+  var obj3 = {};
   var cidValue=[];
   var testOne;
   var testTwo;
@@ -44,31 +46,35 @@ function checkCashRegister(price, cash, cid) {
     return "Closed";
   }
   
+  
   //cid>change currency available -- return multiples of bill < change  
   if(change<total){
-    for (var prop2 in obj2){
-      if(change%obj2[prop2]<change){
-        res.push([prop2, obj1[prop2]]);
-        change -= obj2[prop2];
-        obj1[prop2] -= obj2[prop2];
-      }
+    for (var val in obj2){
+          
+      //var a will hold 1x unit of currency
+      var a = 0;
       
-    } return res;
-  }
+      //if change is divisible by currency value available.
+       if(change%obj2[val]<change){
+        
+        //while a is less than change && available in cid
+        while(a<obj1[val] && a<change){
+          
+          //add multiples of currency until === change or avail funds in cid finish 
+          a += obj2[val];
+        }
+         
+      obj1[val] -= a;
+      change -= a;
+      res.push([val, a]);  
+     }  
+   } 
   //cid>change and currency not available -- insufficient funds
 
-  
-
-// Example cash-in-drawer array:
-// [["PENNY", 1.01],
-// ["NICKEL", 2.05],
-// ["DIME", 3.10],
-// ["QUARTER", 4.25],
-// ["ONE", 90.00],
-// ["FIVE", 55.00],
-// ["TEN", 20.00],
-// ["TWENTY", 60.00],
-// ["ONE HUNDRED", 100.00]]
+    return res;
+  } 
 }
    
 checkCashRegister(3.26, 100.00, [["PENNY", 1.01], ["NICKEL", 2.05], ["DIME", 3.10], ["QUARTER", 4.25], ["ONE", 90.00], ["FIVE", 55.00], ["TEN", 20.00], ["TWENTY", 60.00], ["ONE HUNDRED", 100.00]]);
+
+//[["TWENTY", 60.00], ["TEN", 20.00], ["FIVE", 15.00], ["ONE", 1.00], ["QUARTER", 0.50], ["DIME", 0.20], ["PENNY", 0.04]].
