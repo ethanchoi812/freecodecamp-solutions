@@ -1,17 +1,19 @@
 
 function checkCashRegister(price, cash, cid) {
+  
   var res = [];
   var change;
   change = cash - price;  
   
-  var obj1={};
+  //object containing value of available cash sorted according to value
+  var cidVal={};
   cid.reverse();
   cid.forEach(function(e){
-    obj1[e[0]] = e[1];
+    cidVal[e[0]] = e[1];
   });
   
-  //denominations
-  var obj2 = {
+  //object containing value of denominations
+  var currVal = {
     "ONE HUNDRED":100.00,
     "TWENTY":20.00,
     "TEN":10.00,
@@ -23,11 +25,8 @@ function checkCashRegister(price, cash, cid) {
     "PENNY":0.01
   };
   
-  var obj3 = {};
-  var cidValue=[];
-  var testOne;
-  var testTwo;
-  
+
+  var cidValue=[];  
   for(var i=0; i<cid.length; i++){
       cidValue.push(cid[i][1]);
   }
@@ -45,36 +44,32 @@ function checkCashRegister(price, cash, cid) {
   if(change===total){
     return "Closed";
   }
-  
-  
-  //cid>change currency available -- return multiples of bill < change  
-  if(change<total){
-    for (var val in obj2){
+
+    
+    if(change<total){
+     
+      for (var val in cidVal){
+        
+      //if change is indivisble by curr val
+      
           
-      //var a will hold 1x unit of currency
+      //var a change received
       var a = 0;
       
       //if change is divisible by currency value available.
-       if(change%obj2[val]<change){
+       if(change%currVal[val]<change || change%currVal[val]===0){
         
         //while a is less than change && available in cid
-        while(a<obj1[val] && a<change){
+          while(a<change && a<cidVal[val]){
+            //add multiples of currency until === change or avail funds in cid finish 
+            a += currVal[val];            
+          }
           
-          //add multiples of currency until === change or avail funds in cid finish 
-          a += obj2[val];
-        }
-         
-      obj1[val] -= a;
-      change -= a;
-      res.push([val, a]);  
-     }  
-   } 
-  //cid>change and currency not available -- insufficient funds
-
-    return res;
+         res.push([val, a]);
+         change -= a;
+         return res; 
+     }               
+    }     
+   
   } 
 }
-   
-checkCashRegister(3.26, 100.00, [["PENNY", 1.01], ["NICKEL", 2.05], ["DIME", 3.10], ["QUARTER", 4.25], ["ONE", 90.00], ["FIVE", 55.00], ["TEN", 20.00], ["TWENTY", 60.00], ["ONE HUNDRED", 100.00]]);
-//Actual output: [["TWENTY", 60.00], ["TEN", 20.00], ["FIVE", 20.00]
-//Correct output: [["TWENTY", 60.00], ["TEN", 20.00], ["FIVE", 15.00], ["ONE", 1.00], ["QUARTER", 0.50], ["DIME", 0.20], ["PENNY", 0.04]].
