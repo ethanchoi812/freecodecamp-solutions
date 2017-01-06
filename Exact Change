@@ -60,7 +60,7 @@ function checkCashRegister(price, cash, cid) {
        if(change%currVal[val]<change || change%currVal[val]===0){
         
         //while a is less than change && available in cid
-          while(a<change && a<cidVal[val]){
+          while(a<change && a<cidVal[val]-currVal[val]){
             //add multiples of currency until === change or avail funds in cid finish 
             a += currVal[val];            
           }
