@@ -1,80 +1,76 @@
 
 function checkCashRegister(price, cash, cid) {
-  var res = [];
-  var change;
-  change = cash - price;  
-  
-  var obj1={};
+ //sort order from highest denomination value to lowest
   cid.reverse();
-  cid.forEach(function(e){
-    obj1[e[0]] = e[1];
+  
+// create object of denomination values
+  var valObj = {"ONE HUNDRED": 100.00, "TWENTY": 20.00, "TEN": 10.00, "FIVE": 5.00, "ONE": 1.00, "QUARTER": 0.25, "DIME": 0.10, "NICKEL": 0.05, "PENNY": 0.01};
+
+ //create cid object from cid array
+ var cidObj = {};
+  cid.map(function(e) {   
+    for(var j=0; j<cid.length; j++){
+    cidObj[e[0]] = e[1];
+  }   
   });
   
-  //denominations
-  var obj2 = {
-    "ONE HUNDRED":100.00,
-    "TWENTY":20.00,
-    "TEN":10.00,
-    "FIVE":5.00,
-    "ONE":1.00,
-    "QUARTER":0.25,
-    "DIME":0.10,
-    "NICKEL":0.05,
-    "PENNY":0.01
-  };
-  
-  var obj3 = {};
-  var cidValue=[];
-  var testOne;
-  var testTwo;
-  
+  //find change
+  var change;
+  change = cash-price;
+    
+ //create array of cash value of cid
+  var cidVal = [];
   for(var i=0; i<cid.length; i++){
-      cidValue.push(cid[i][1]);
+    cidVal.push(cid[i][1]);
   }
   
-   var total = cidValue.reduce(function(a, b){
+  //find total available funds for checking
+  var total = cidVal.reduce(function(a, b){
     return a + b;
-  });
+  }, 0);
 
-  //cid<change -- insufficient funds  
-  if(change>total){
+  //start testing!
+  if(total<change){
     return "Insufficient Funds";
   }
   
-  //cid === change -- closed
-  if(change===total){
+  if(total === change){
     return "Closed";
   }
   
-  
-  //cid>change currency available -- return multiples of bill < change  
-  if(change<total){
-    for (var val in obj2){
-          
-      //var a will hold 1x unit of currency
-      var a = 0;
+  var res=[];
+  var m=0;
+  if(total>change){
+    
+    for(var val in valObj){
+    
+    //if change is larger than denomination value (select denomination types that add to equal change)
+      if(change>valObj[val]){
+    
+    //if change is larger or equal to available cash of a denomination type, add all cash of denom type into result array.     
+        if(change>=cidObj[val]){
+          res.push([val, cidObj[val]]);
+          change -= cidObj[val];
+          change.toFixed(2);
       
-      //if change is divisible by currency value available.
-       if(change%obj2[val]<change){
-        
-        //while a is less than change && available in cid
-        while(a<obj1[val] && a<change){
-          
-          //add multiples of currency until === change or avail funds in cid finish 
-          a += obj2[val];
-        }
-         
-      obj1[val] -= a;
-      change -= a;
-      res.push([val, a]);  
-     }  
-   } 
-  //cid>change and currency not available -- insufficient funds
-
+     //if change less than cash of denom type, find max multiples of denom value and push to result array
+        } else if (change<cidObj[val]){
+       
+       //find multiplier, round down to nearest integer
+            m = Math.floor(change/valObj[val]);
+            res.push([val, (m*valObj[val])]);
+            change -= m*valObj[val];
+            change = Math.round(change * 100) / 100;
+        }           
+      } 
+     
+     //if change left "unreturned", there is insufficent cash of suitable denom type.
+    } if(change>0){
+      return "Insufficient Funds";
+      
+    } else
     return res;
   } 
 }
-   
+
 checkCashRegister(3.26, 100.00, [["PENNY", 1.01], ["NICKEL", 2.05], ["DIME", 3.10], ["QUARTER", 4.25], ["ONE", 90.00], ["FIVE", 55.00], ["TEN", 20.00], ["TWENTY", 60.00], ["ONE HUNDRED", 100.00]]);
-//Actual output: [["TWENTY", 60.00], ["TEN", 20.00], ["FIVE", 20.00]
-//Correct output: [["TWENTY", 60.00], ["TEN", 20.00], ["FIVE", 15.00], ["ONE", 1.00], ["QUARTER", 0.50], ["DIME", 0.20], ["PENNY", 0.04]].
