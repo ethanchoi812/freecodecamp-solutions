@@ -8,10 +8,8 @@ function checkCashRegister(price, cash, cid) {
 
  //create cid object from cid array
  var cidObj = {};
-  cid.map(function(e) {   
-    for(var j=0; j<cid.length; j++){
+  cid.forEach(function(e) {   
     cidObj[e[0]] = e[1];
-  }   
   });
   
   //find change
