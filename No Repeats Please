@@ -1,0 +1,32 @@
+//in progress
+
+function permAlone(str) {
+  //find total permutation
+  var n; var nArr=[];
+  n=str.length;
+  
+  for(var j=1; j<n+1; j++){
+    nArr.push(j);
+  } 
+  
+  var totalPerm = nArr.reduce(function(a,b){
+    return a*b;
+  });
+  
+   //sort letters of string 
+   var newStr = str.split("").sort().join("");
+  
+  //find repeated letters
+  var re=/([a-z])\1{1,}/g;
+  var result = newStr.match(re);
+  var m = result.length;
+  var r=[];
+  
+  for(var k=0; k<m; k++){
+    r.push(result[k].length);
+  }
+  
+  return r;
+  }
+
+permAlone('aab');
