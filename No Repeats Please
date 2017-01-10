@@ -1,7 +1,7 @@
-//in progress
 
 function permAlone(str) {
-  //find total permutation
+  
+  //find total no. of permutation - multiply str length no. by subsequent no.
   var n; var nArr=[];
   n=str.length;
   
@@ -9,24 +9,34 @@ function permAlone(str) {
     nArr.push(j);
   } 
   
-  var totalPerm = nArr.reduce(function(a,b){
-    return a*b;
-  });
+   var totalPerm =  nArr.reduce(function(a,b){
+      return a*b;
+    }, 0);
+  
   
    //sort letters of string 
    var newStr = str.split("").sort().join("");
   
   //find repeated letters
   var re=/([a-z])\1{1,}/g;
-  var result = newStr.match(re);
-  var m = result.length;
-  var r=[];
+  var resArr = newStr.match(re);
   
-  for(var k=0; k<m; k++){
-    r.push(result[k].length);
+  //find num of groups of repeating letters
+  var grpNum = resArr.length;
+  var charNumArr=[];
+  
+  for(var i=0; i<resArr.length; i++){
+   charNumArr.push(resArr[i].length);
+ }
+  
+    //newPerm -= (n - charNum[i] + 1)*charNum[i]
+    var newPerm;
+  for(var k=0; k<charNumArr.length; k++){
+    newPerm -= (n - charNumArr[i] + 1)*charNumArr[i];
   }
-  
-  return r;
+    
+
+  return newPerm;
   }
 
-permAlone('aab');
+permAlone('aaabb');
