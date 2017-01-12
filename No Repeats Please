@@ -1,32 +1,75 @@
 //in progress
 
 function permAlone(str) {
-  //find total permutation
-  var n; var nArr=[];
-  n=str.length;
   
-  for(var j=1; j<n+1; j++){
+  //find total no. of permutation - multiply str length no. by subsequent no.
+  var ltrNum = str.length;
+  
+  function perm(n){
+    
+    var nArr=[];
+    for(var j=1; j<n+1; j++){
     nArr.push(j);
   } 
   
-  var totalPerm = nArr.reduce(function(a,b){
-    return a*b;
+   var totalPerm =  nArr.reduce(function(a,b){
+      return a*b;
+    });
+    
+    return totalPerm;
+  }
+  
+  //total permuation of letters
+  var permLtrNum=perm(ltrNum); 
+ 
+  //sort letters of string 
+  var newStr = str.split("").sort().join("");
+  
+  //find repeated letters, put them in an array
+  var re=/([a-z])\1{1,}/g;
+  var rptArr = newStr.match(re);
+  
+  //find num of groups of repeating letters
+  var grpNum = rptArr.length;
+  
+  var charNumArr=[];
+  
+  for(var i=0; i<rptArr.length; i++){
+   charNumArr.push(rptArr[i].length);
+ }
+  
+  /*
+  
+  //add permutations of str with repeats grouped up
+  var permSub = charNumArr.map(function(e){
+      return perm(ltrNum - e + 1);
   });
   
-   //sort letters of string 
-   var newStr = str.split("").sort().join("");
+  return permSub;
+  */
   
-  //find repeated letters
-  var re=/([a-z])\1{1,}/g;
-  var result = newStr.match(re);
-  var m = result.length;
-  var r=[];
+  //find total number of repeat letters
+  var totalRpt = charNumArr.reduce(function(a,b){
+    return a+b;
+  });
   
-  for(var k=0; k<m; k++){
-    r.push(result[k].length);
-  }
+  var sum;
+  sum = ltrNum - totalRpt + grpNum;
+  var permSum = perm(sum);
   
-  return r;
-  }
+  //permutate repeated letters
+  var permRptArr = [];
+  charNumArr.forEach(function(a){ 
+     permRptArr.push(perm(a)); 
+  });
+  
+  var x = permRptArr.reduce(function(a,b){
+            return a*b;
+            });
 
-permAlone('aab');
+  var result = permLtrNum;
+  
+  return result;
+}
+
+permAlone('aabb');
