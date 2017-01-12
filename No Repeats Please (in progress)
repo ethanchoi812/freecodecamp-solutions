@@ -1,0 +1,61 @@
+
+function permAlone(str) {
+  
+  //find total no. of permutation - multiply str length no. by subsequent no.
+  var strLen = str.length;
+  
+  function perm(n){
+    
+    var nArr=[];
+    for(var j=1; j<n+1; j++){
+    nArr.push(j);
+  } 
+  
+   var totalPerm =  nArr.reduce(function(a,b){
+      return a*b;
+    });
+    
+    return totalPerm;
+  }
+  
+  var y=perm(strLen); 
+ 
+  //sort letters of string 
+  var newStr = str.split("").sort().join("");
+  
+  //find repeated letters
+  var re=/([a-z])\1{1,}/g;
+  var resArr = newStr.match(re);
+  
+  //find num of groups of repeating letters
+  var grpNum = resArr.length;
+  
+  var charNumArr=[];
+  
+  for(var i=0; i<resArr.length; i++){
+   charNumArr.push(resArr[i].length);
+ }
+  
+  //find total number of repeat letters
+  var totalRpt = charNumArr.reduce(function(a,b){
+    return a+b;
+  });
+  
+  var z=1;
+  var sum;
+     sum = strLen - totalRpt + grpNum;
+     
+  
+  charNumArr.forEach(function(a){ 
+     z *= a; 
+  });
+  
+ // var x = z.reduce(function(a,b){
+ //   return a*b;
+ // });
+    
+
+  return y - perm(sum)*z;
+  }
+
+permAlone('aab');
