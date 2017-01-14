@@ -1,3 +1,4 @@
+##Thoughts: Learning concepts of Regex (don't use /g when using to test items in array), recursive function. Simple is better.
 
 function permAlone(str) {
  
