@@ -1,32 +1,51 @@
-//in progress
 
 function permAlone(str) {
-  //find total permutation
-  var n; var nArr=[];
-  n=str.length;
-  
-  for(var j=1; j<n+1; j++){
-    nArr.push(j);
-  } 
-  
-  var totalPerm = nArr.reduce(function(a,b){
-    return a*b;
-  });
-  
-   //sort letters of string 
-   var newStr = str.split("").sort().join("");
-  
-  //find repeated letters
-  var re=/([a-z])\1{1,}/g;
-  var result = newStr.match(re);
-  var m = result.length;
-  var r=[];
-  
-  for(var k=0; k<m; k++){
-    r.push(result[k].length);
+ 
+var strArr=str.split("");
+var perm=[];
+
+//use Heap's Algorithm to generate permutations and push into an array
+function heaps(arr){
+   
+    function swap(a, b){
+      var temp = arr[a];
+      arr[a] = arr[b];
+      arr[b] = temp;
+    }
+    
+    var n = arr.length;
+    
+    function generate(n){
+      if(n===1){
+        perm.push(arr.join(""));  
+      } else{
+        for(var i=0; i<n; i++){
+          generate(n-1);     
+          if(n%2===0){
+            swap(i, n-1);
+          } else {          
+            swap(0, n-1);
+        }
+      }
+    }
   }
   
-  return r;
+  generate(arr.length);
+ }
+
+  heaps(strArr);
+  
+//match strings with repeated letter, minus number from total count
+  var count=perm.length;
+  var re=/(\w)(\1+)/;
+
+  for(var j=0; j<perm.length; j++){
+    if(re.test(perm[j])){
+      count--;
+    }
   }
+
+  return count;
+}
 
 permAlone('aab');
