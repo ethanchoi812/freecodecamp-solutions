@@ -1,0 +1,34 @@
+
+function makeFriendlyDates(arr) {
+  var resArr=[];
+  //change month no. to str
+  var month = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+  
+  var startDate = arr[0].split('-');
+  var endDate = arr[1].split('-');
+
+  //if same year and month, do not display monthSubStr and yearSubStr
+  //calculate date range
+  //if less than a year, do not display yearSubStr
+  
+  //month
+  var startMth; var endMth; var m; var n; 
+  m = startDate[1]; n = endDate[1];
+  startMth = month[m-1];
+  endMth = month[n-1];
+  
+  //day
+  //join 'st' to day ending with:'1', nd to '2', 'rd' to '3', 'th' to the rest
+  var startDay; var endDay;
+  var suffix = {1:"rd", 2:"nd", 3:"rd"};
+  
+  if(startDate[2]){
+    startDay.join();
+  }
+  
+  //join dates, start and end dates
+  resArr.push();
+  return resArr;
+}
+
+makeFriendlyDates(['2016-07-01', '2016-07-04']);
