@@ -2,33 +2,81 @@
 function makeFriendlyDates(arr) {
   var resArr=[];
   //change month no. to str
-  var month = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
   
   var startDate = arr[0].split('-');
   var endDate = arr[1].split('-');
-
-  //if same year and month, do not display monthSubStr and yearSubStr
-  //calculate date range
-  //if less than a year, do not display yearSubStr
+  
+  var startYr; var endYr;
+  startYr = startDate[0];
+  endYr = endDate[0];
   
   //month
+  var month = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+  
   var startMth; var endMth; var m; var n; 
+  
   m = startDate[1]; n = endDate[1];
   startMth = month[m-1];
   endMth = month[n-1];
   
   //day
   //join 'st' to day ending with:'1', nd to '2', 'rd' to '3', 'th' to the rest
-  var startDay; var endDay;
-  var suffix = {1:"rd", 2:"nd", 3:"rd"};
+  var startDay; var endDay; var i; var j;
+  var suffix = {st: ["1", "21", "31"], };
   
-  if(startDate[2]){
-    startDay.join();
+  i = startDate[2]; j = endDate[2];
+  startDay = startDate[2].substr(0,2) + suffix[startDate[2].substr(0,2)];
+  endDay = endDate[2].substr(-1,2) + suffix[endDate[2].substr(-1,1)];
+  
+  
+  //if same year and month, do not display monthSubStr and yearSubStr
+  //for diff years
+  //calculate date range
+  var yrRange; var mthRange; var resStart; var resEnd;
+  yrRange = parseInt(endYr)-parseInt(startYr);
+  mthRange = 12 - parseInt(m) + parseInt(n);
+   var currentYr = "2016";
+  
+    
+  if(startYr === endYr && startMth === endMth){
+    resStart = startMth + " " + startDay;
+    resEnd = endDay;
+  } else
+  
+  //if less than a year, do not display startYr
+  if(yrRange===0 || (yrRange===1 && (m===n && j<i || mthRange<12))){
+    
+    if(startYr === currentYr){
+      resStart = startMth + " " + startDay;
+      resEnd = endMth + " " + endDay;
+      
+    } else {
+    resStart = startMth + " " + startDay + ", " + startYr;
+    resEnd = endMth + " " + endDay;
+      
+    }
+  } else
+    
+    if(yrRange===1){
+     
+     
+        resStart = startMth + " " + startDay + ", " + startYr;
+        resEnd = endMth + " " + endDay + ", " + endYr;      
+      
+  } else if(yrRange>1){
+        resStart = startMth + " " + startDay + ", " + startYr;
+        resEnd = endMth + " " + endDay + ", " + endYr; 
   }
   
-  //join dates, start and end dates
-  resArr.push();
+   if(startYr === endYr && startMth === endMth && startDay === endDay){
+    resStart = startMth + " " + startDay + ", " + startYr;
+     resArr.push(resStart);
+     
+  } else {
+     resArr.push(resStart, resEnd);   
+  }
+ 
   return resArr;
 }
 
-makeFriendlyDates(['2016-07-01', '2016-07-04']);
+makeFriendlyDates(["2018-01-21", "2018-01-21"]);
