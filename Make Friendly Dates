@@ -21,13 +21,38 @@ function makeFriendlyDates(arr) {
   
   //day
   //join 'st' to day ending with:'1', nd to '2', 'rd' to '3', 'th' to the rest
-  var startDay; var endDay; var i; var j;
+ var startDay; var endDay; var i; var j;
   
-  var ordinal = {"01":"1st", "02":"2nd", "03":"3rd", "04":"4th", "05":"5th", "06":"6th", "07":"7th", "08":"8th", "09":"9th", "10":"10th", "11":"11th", "12":"12th", "13":"13th", "14":"14th", "15":"15th", "16":"16th", "17":"17th", "18":"18th", "19":"19th", "20":"20th", "21":"21st", "22":"22nd", "23":"23rd", "24":"24th",  "25":"25th", "26":"26th", "27":"27th", "28":"28th", "29":"29th", "30":"30th", "31":"31st"};
+ function getOrdinal(n) {
+    var m; var o;
+    m = n.split(''); //becomes array
+    
+    if(m[0]==="0"){
+      m.shift();
+      o = m.join("");
+    } else {
+      o = m.join(""); //str
+    }
+    
+    var st = ["1", "21", "31"];
+    var nd = ["2", "22"];
+    var rd = ["3", "23"];
+    
+    if(st.indexOf(o) !== -1){
+      return o + "st";
+    } else if(nd.indexOf(o) !== -1){
+      return o + "nd";
+    } else if(rd.indexOf(o) !== -1){
+      return o + "rd";
+    } else {
+      return o + "th";
+    }
+  }
   
+ 
   i = startDate[2]; j = endDate[2];
-  startDay = ordinal[i];
-  endDay = ordinal[j];
+  startDay = getOrdinal(i);
+  endDay = getOrdinal(j);
   
   
   //if same year and month, do not display monthSubStr and yearSubStr
