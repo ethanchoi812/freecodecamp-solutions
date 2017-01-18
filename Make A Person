@@ -1,0 +1,45 @@
+//in progress
+
+
+var Person = function(firstAndLast) {
+  var nameArr = firstAndLast.split(" ");
+  var first = nameArr[0];
+  var last = nameArr[1];
+  
+  this.firstName = first || "";
+  this.lastName = last || "";
+  this.fullName = firstAndLast || "";
+  
+  function setFirstName(first) {
+    
+    this.firstName = first;
+  }
+  
+  function setLastName(last) {
+
+    this.lastName = last;
+  }  
+  
+  function setFullName(firstAndLast) {
+
+    this.fullName = firstAndLast;
+  }
+  
+};  
+  
+
+  Person.prototype.getFullName = function(){
+     return this.fullName;
+   };
+
+  Person.prototype.getFirstName = function(){
+    return this.firstName;
+  };
+  
+   Person.prototype.getLastName = function(){
+    return this.lastName;
+  };
+
+
+var bob = new Person('Bob Ross');
+bob.getFullName();
