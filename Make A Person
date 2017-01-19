@@ -1,42 +1,40 @@
 
 var Person = function(firstAndLast) {
+  var fullname = firstAndLast;
   var nameArr = firstAndLast.split(" ");  
   
-  //default property
-  this.firstname = nameArr[0];
-  this.lastname = nameArr[1];
-  this.fullname = nameArr[0] + " " + nameArr[1];
+  //getting
+  this.getFirstName = function(){
+    return nameArr[0];
+  };
   
-  //set values
+  this.getLastName = function(){
+    return nameArr[1];
+  };
+  
+  this.getFullName = function(){
+    return fullname;
+  };
+  
+    
+  //setting
    this.setFullName = function(firstAndLast) {
-      var nameArr = firstAndLast.split(" "); 
-        this.fullname = firstAndLast;
-        this.firstname = nameArr[0];
-        this.lastname = nameArr[1];
+      fullname = firstAndLast;
+      nameArr = firstAndLast.split(" ");
     };
 
     this.setFirstName = function(first) {
-      this.firstname = first;
-      this.fullname = first + " " + this.lastname;
+      nameArr[0] = first;
+      fullname = nameArr.join(" ");
     };
 
     this.setLastName = function(last) {
-      this.lastname = last;
-      this.fullname = this.firstname + " " + last;
+      nameArr[1] = last;
+      fullname =  nameArr.join(" ");
     };
 };  
   
-    Person.prototype.getFullName = function() {
-      return this.fullname;   
-    };
 
-    Person.prototype.getFirstName = function() {
-      return this.firstname;   
-    };
-
-    Person.prototype.getLastName = function() {
-      return this.lastname;   
-    };  
 
 
 var bob = new Person('Bob Ross');
