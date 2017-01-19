@@ -1,44 +1,42 @@
-//in progress
-
 
 var Person = function(firstAndLast) {
-  var nameArr = firstAndLast.split(" ");
-  var first = nameArr[0];
-  var last = nameArr[1];
+  var nameArr = firstAndLast.split(" ");  
   
-  this.firstName = first || "";
-  this.lastName = last || "";
-  this.fullName = firstAndLast || "";
+  //default property
+  this.firstname = nameArr[0];
+  this.lastname = nameArr[1];
+  this.fullname = nameArr[0] + " " + nameArr[1];
   
-  function setFirstName(first) {
-    
-    this.firstName = first;
-  }
-  
-  function setLastName(last) {
+  //set values
+   this.setFullName = function(firstAndLast) {
+      var nameArr = firstAndLast.split(" "); 
+        this.fullname = firstAndLast;
+        this.firstname = nameArr[0];
+        this.lastname = nameArr[1];
+    };
 
-    this.lastName = last;
-  }  
-  
-  function setFullName(firstAndLast) {
+    this.setFirstName = function(first) {
+      this.firstname = first;
+      this.fullname = first + " " + this.lastname;
+    };
 
-    this.fullName = firstAndLast;
-  }
-  
+    this.setLastName = function(last) {
+      this.lastname = last;
+      this.fullname = this.firstname + " " + last;
+    };
 };  
   
+    Person.prototype.getFullName = function() {
+      return this.fullname;   
+    };
 
-  Person.prototype.getFullName = function(){
-     return this.fullName;
-   };
+    Person.prototype.getFirstName = function() {
+      return this.firstname;   
+    };
 
-  Person.prototype.getFirstName = function(){
-    return this.firstName;
-  };
-  
-   Person.prototype.getLastName = function(){
-    return this.lastName;
-  };
+    Person.prototype.getLastName = function() {
+      return this.lastname;   
+    };  
 
 
 var bob = new Person('Bob Ross');
