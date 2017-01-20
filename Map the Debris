@@ -1,0 +1,37 @@
+
+function orbitalPeriod(arr) {
+  //The orbital period is the time taken for a given object to make one complete orbit around another object
+  
+  var GM = 398600.4418;
+  var earthRadius = 6367.4447;
+  var newArr = [];
+  
+  for(var i=0; i<arr.length; i++){
+    newArr.push(arr[i]);
+  }
+
+ //convert GM to m^3/s^2
+  var gm = GM * Math.pow(1000, 3);  
+
+   
+  newArr.forEach(function(obj){
+   
+     //r is length of the orbits' semi major axis
+     //convert earthRadius + alt to meters, then cubed
+
+     var r; 
+     r = Math.pow((earthRadius + obj.avgAlt)*1000, 3);
+
+     var t;
+     t = (2 * Math.PI) * Math.pow((r/gm), 1/2);
+
+     obj.orbitalPeriod = Math.round(t);
+   
+     delete obj.avgAlt;
+  });
+  
+    
+  return newArr;
+}
+
+orbitalPeriod([{name : "sputnik", avgAlt : 35873.5553}]);
