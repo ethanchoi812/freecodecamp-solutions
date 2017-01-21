@@ -1,0 +1,46 @@
+
+function pairwise(arr, arg) {
+ 
+  //if pair a === pair b, return smallest sum indices
+  
+  var pairer = function (arr1, arg1){
+    
+    var newArr = [];
+    
+    for(var i = 0; i<arr1.length; i++){
+      for(var j = 0; j<arr1.length; j++){
+        
+         //find a and b, where a + b = arg
+        if(arr1[i] + arr1[j] === arg1 && i !== j){
+          
+          //push i & j if they are not already in newArr
+          while(newArr.indexOf(i)===-1 && newArr.indexOf(j)===-1){
+           
+            newArr.push(i,j);                    
+            }  
+           } 
+          }
+         }
+    return newArr;
+ };
+  
+  var newRes;
+  
+  if(arr.length<1){
+    
+    newRes = 0;
+    
+  } else {
+    
+    var res = pairer(arr, arg);
+
+    //sum indices of pair
+    newRes = res.reduce(function(a, b){
+      return a + b;
+     });
+  }
+  
+  return newRes;
+}
+
+pairwise([1, 4, 2, 3, 0, 5], 7);
